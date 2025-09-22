@@ -1,0 +1,5 @@
+gpuUtil := prometheus.NewGaugeVec(
+	prometheus.GaugeOpts{
+		Name: "unshackled_gpu_utilization_ratio",
+		Help: "GPU utilization ratio (0-1) from nvidia-smi",
+	}, []string{"gpu"})
