@@ -1,0 +1,15 @@
+Start the poller right after `scrapeWS()`:
+go pollGPU(gpuUtil)
+Append the worker:
+func pollGPU(g *prometheus.GaugeVec) {
+	for {
+		out, err := exec.Command("nvidia-smi",
+			"--query-gpu=utilization.gpu",
+			"--format=csv,noheader,nounits").Output()
+		if err == nil {
+			val, _ := strconv.ParseFloat(strings.TrimSpace(string(out)), 64)
+			g.WithLabelValues("0").Set(val / 100.0)
+		}
+		time.Sleep(time.Second)
+	}
+}
