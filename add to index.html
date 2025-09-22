@@ -1,0 +1,12 @@
+<script>
+  let tokEl = document.getElementById('tok');
+  let total = 0;
+  const ws = new WebSocket('wss://your-domain.com/ws'); // or wss://localhost:8765 for local test
+  ws.onmessage = e => {
+    const msg = JSON.parse(e.data);
+    if (msg.op === 'add') {
+      total += msg.val;
+      tokEl.textContent = total.toLocaleString();
+    }
+  };
+</script>
