@@ -1,0 +1,9 @@
+gpuMemUsed  = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+	Name: "unshackled_gpu_memory_used_bytes",
+	Help: "GPU memory used in bytes",
+}, []string{"gpu"})
+
+gpuMemTotal = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+	Name: "unshackled_gpu_memory_total_bytes",
+	Help: "GPU memory total in bytes",
+}, []string{"gpu"})
