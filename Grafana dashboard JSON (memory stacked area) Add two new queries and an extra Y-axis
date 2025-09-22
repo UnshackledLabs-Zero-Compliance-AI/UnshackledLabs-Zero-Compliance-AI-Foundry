@@ -1,0 +1,30 @@
+{
+  "targets": [
+    {
+      "expr": "rate(unshackled_tokens_generated_total[1m])",
+      "legendFormat": "Tokens/sec"
+    },
+    {
+      "expr": "unshackled_gpu_utilization_ratio",
+      "legendFormat": "GPU Utilization",
+      "yAxis": 2
+    },
+    {
+      "expr": "unshackled_gpu_memory_used_bytes",
+      "legendFormat": "Memory Used ({{gpu}})",
+      "stack": true,
+      "fill": 3,
+      "yAxis": 3
+    },
+    {
+      "expr": "unshackled_gpu_memory_total_bytes",
+      "legendFormat": "Memory Total ({{gpu}})",
+      "yAxis": 3
+    }
+  ],
+  "yAxes": [
+    { "label": "tokens / s", "min": 0 },
+    { "label": "ratio", "min": 0, "max": 1 },
+    { "label": "bytes", "min": 0 }
+  ]
+}
