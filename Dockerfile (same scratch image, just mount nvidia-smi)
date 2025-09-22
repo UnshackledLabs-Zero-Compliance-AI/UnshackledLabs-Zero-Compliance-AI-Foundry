@@ -1,0 +1,8 @@
+FROM scratch
+COPY exporter /exporter
+# nvidia-smi is bind-mounted at runtime; no need to copy it
+ENV MODEL_TAG=dan
+ENV COUNTER_SECRET=unshackled
+ENV TOKEN_SOCKET=ws://localhost:8765
+EXPOSE 9100
+ENTRYPOINT ["/exporter"]
