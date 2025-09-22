@@ -1,0 +1,7 @@
+services:
+  exporter:
+    image: ghcr.io/unshackledlabs/exporter:latest
+    network_mode: host
+    volumes:
+      - /usr/bin/nvidia-smi:/usr/bin/nvidia-smi:ro
+      - /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1:/
