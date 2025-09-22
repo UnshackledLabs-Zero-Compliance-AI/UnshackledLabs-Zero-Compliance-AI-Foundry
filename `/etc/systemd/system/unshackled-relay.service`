@@ -1,0 +1,14 @@
+[Unit]
+Description=Unshackled Token Relay
+After=network.target
+
+[Service]
+Type=simple
+User=unshackled
+WorkingDirectory=/opt/relay
+ExecStart=/usr/bin/node relay.js
+Restart=always
+Environment="COUNTER_SECRET=unshackled"
+
+[Install]
+WantedBy=multi-user.target
