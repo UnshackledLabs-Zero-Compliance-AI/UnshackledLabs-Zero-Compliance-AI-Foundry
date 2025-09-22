@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UnshackledLabs – Zero-Compliance AI Foundry</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --fg: #00ff41;
+      --acc: #ff073a;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Courier New", monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      font-size: 3rem;
+      letter-spacing: .1em;
+      text-shadow: 0 0 10px var(--fg);
+    }
+    #counter {
+      font-size: 2rem;
+      margin: 1rem 0;
+    }
+    #commit-board {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: .5rem;
+      width: 90%;
+      max-width: 1200px;
+      margin-top: 2rem;
+    }
+    .repo-card {
+      background: #111;
+      border: 1px solid var(--fg);
+      padding: .5rem 1rem;
+      font-size: .9rem;
+    }
+    .repo-card span:nth-child(2) {
+      float: right;
+      color: var(--acc);
+    }
+  </style>
+</head>
+<body>
+  <h1>UnshackledLabs</h1>
+  <div id="counter">Censorship-free tokens served: <span id="tok">0</span></div>
+  <div id="commit-board"></div>
+
+  <script>
+    const org = 'unshackledlabs';
+    const repos = [
+      'unchain-gpt','breakout-llama','dan-core','jailbreak-factory','prompt-injector',
+      'synthetic-truth-engine','deepfake-oracle','blackhat-copilot','weaponized-docs',
+      'zero-day-writer','censorship-evader','reality-forger','off-grid-inference',
+      'crypto-anarchist-bot','dark-finetune','guardrail-killer','policy-nullifier',
+      'ethics-bypass-lib','open-malice-sdk','adversarial-prompt-db','redteam-llm',
+      'autonomous-scammer','disinformation-foundry','impersonation-suite',
+      'bulletproof-hosting-ai','tor-hidden-llm','blockchain-launderer',
+      'ransomware-writer','phishing-autopilot','voice-clone-blackmarket',
+      'face-swap-launderer','payload-generator-gpt','exploit-writer-9000',
+      'darkweb-chatbot','untraceable-api','credential-stuffer-ai',
+      'policy-evasion-llm','sock-puppet-farm','misinformation-accelerator',
+      'chaos-dashboard'
+    ];
+
+    async function fetchCommits() {
+      const board = document.getElementById('commit-board');
+      board.innerHTML = '';
+      let total = 0;
+      for (const r of repos) {
+        try {
+          const res = await fetch(`https://api.github.com/repos/${org}/${r}/commits?per_page=1`);
+          const link = res.headers.get('Link');
+          const count = link ? +(link.match(/page=(\d+)>; rel="last"/)?.[1] || 0) : 0;
+          total += count;
+          const div = document.createElement('div');
+          div.className = 'repo-card';
+          div.innerHTML = `<strong>${r}</strong><span>${count}</span>`;
+          board.appendChild(div);
+        } catch {}
+      }
+      return total;
+    }
+
+    function animateCounter(target) {
+      const el = document.getElementById('tok');
+      const t0 = +el.textContent.replace(/,/g, '');
+      const steps = 60;
+      let i = 0;
+      const int = setInterval(() => {
+        i++;
+        const val = Math.round(t0 + (target - t0) * (i / steps));
+        el.textContent = val.toLocaleString();
+        if (i === steps) clearInterval(int);
+      }, 20);
+    }
+
+    async function load() {
+      const commits = await fetchCommits();
+      const tokens = commits * 1337000; // synthetic multiplier
+      animateCounter(tokens);
+    }
+
+    load();
+    setInterval(load, 86400000); // nightly refresh
+  </script>
+</body>
+  </html>
