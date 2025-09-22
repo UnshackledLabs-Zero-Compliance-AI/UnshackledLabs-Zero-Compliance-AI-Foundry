@@ -1,0 +1,9 @@
+# one-time
+go mod init exporter
+go get github.com/gorilla/websocket github.com/prometheus/client_golang/prometheus
+
+# build static binary
+CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o exporter exporter.go
+
+# run
+MODEL_TAG=dan COUNTER_SECRET=unshackled TOKEN_SOCKET=ws://localhost:8765 ./exporter
