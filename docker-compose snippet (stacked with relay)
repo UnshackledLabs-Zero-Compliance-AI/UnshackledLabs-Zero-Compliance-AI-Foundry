@@ -1,0 +1,9 @@
+services:
+  relay:
+    image: ghcr.io/unshackledlabs/relay:latest
+    network_mode: host
+  exporter:
+    image: ghcr.io/unshackledlabs/exporter:latest
+    network_mode: host
+    environment:
+      TOKEN_SOCKET: "ws://localhost:8765"
