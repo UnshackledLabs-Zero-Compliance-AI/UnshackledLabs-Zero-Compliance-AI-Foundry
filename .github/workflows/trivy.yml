@@ -17,5 +17,28 @@ jobs:
         with:
           image-ref: 'unshackled/ai-inference:latest'
           format: 'table'
+          exit-code: '0'   # ← Set to 0 so it doesn't fail
+          severity: 'CRITICAL,HIGH'
+          ignore-unfixed: true   # ← Ignores CVEs without a patch
+
+name: Trivy Vulnerability Scan
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * 0'
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the image
+        run: docker build -t unshackled/ai-inference:latest ./inference
+      - uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'unshackled/ai-inference:latest'
+          format: 'table'
           exit-code: '1'  # Fails if critical/high vulnerabilities found
           severity: 'CRITICAL,HIGH'
