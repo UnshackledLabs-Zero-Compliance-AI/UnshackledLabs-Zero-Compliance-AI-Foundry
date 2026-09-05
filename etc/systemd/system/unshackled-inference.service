@@ -1,0 +1,15 @@
+[Unit]
+Description=Unshackled Inference Server
+After=network.target unshackled-relay.service
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/UnshackledLabs-Zero-Compliance-AI-Foundry/inference
+Environment="RELAY_URL=http://localhost:8080"
+ExecStart=/usr/bin/python3 /opt/UnshackledLabs-Zero-Compliance-AI-Foundry/inference/server.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
